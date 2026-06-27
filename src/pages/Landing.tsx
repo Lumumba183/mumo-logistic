@@ -18,7 +18,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import ObsidianFlow from "@/components/effects/ObsidianFlow";
-import { trpc } from "@/providers/trpc";
+import { mockFeaturedCompanions } from "@/data/mockData";
 
 // ─── Fade In Section ─────────────────────────────────────────────────
 function FadeInSection({ children, className = "", delay = 0 }: { children: React.ReactNode; className?: string; delay?: number }) {
@@ -244,7 +244,7 @@ function HeroSection() {
 
 // ─── Featured Companions ─────────────────────────────────────────────
 function FeaturedSection() {
-  const { data } = trpc.user.getFeatured.useQuery({ limit: 6 });
+  const data = mockFeaturedCompanions;
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const scroll = (dir: number) => {
@@ -289,7 +289,7 @@ function FeaturedSection() {
           className="flex gap-5 overflow-x-auto pb-4 scrollbar-hide"
           style={{ scrollSnapType: "x mandatory" }}
         >
-          {data?.map((companion, i) => (
+          {data.map((companion, i) => (
             <FadeInSection key={companion.id} delay={i * 0.1}>
               <Link to="/browse" className="block flex-shrink-0">
                 <div
@@ -321,31 +321,6 @@ function FeaturedSection() {
               </Link>
             </FadeInSection>
           ))}
-
-          {!data?.length &&
-            [1, 2, 3, 4, 5, 6].map((i) => (
-              <div
-                key={i}
-                className="w-[300px] flex-shrink-0 rounded-xl overflow-hidden card-shadow"
-              >
-                <div className="relative h-[360px]">
-                  <img
-                    src={`/assets/companion-avatar-${i}.jpg`}
-                    alt={`Companion ${i}`}
-                    className="w-full h-full object-cover"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0F] via-transparent to-transparent" />
-                  <div className="absolute bottom-0 left-0 right-0 p-4">
-                    <h3 className="text-lg font-semibold text-[#F5E6D3] mb-1">
-                      {["Sophia Chen", "Marcus Rivera", "Isabella Romano", "Victoria Ashford", "James Whitfield", "Anastasia Volkov"][i - 1]}
-                    </h3>
-                    <p className="text-sm text-[#9CA3AF]">
-                      {["New York", "London", "Milan", "Los Angeles", "Dubai", "Paris"][i - 1]}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            ))}
         </div>
       </div>
     </section>

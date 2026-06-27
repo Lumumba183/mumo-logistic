@@ -1,11 +1,9 @@
 import { Link } from "react-router";
 import { ArrowLeft, Clock, Tag } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { trpc } from "@/providers/trpc";
+import { mockBlogPosts } from "@/data/mockData";
 
 export default function Blog() {
-  const { data, isLoading } = trpc.blog.list.useQuery({ limit: 12 });
-
   return (
     <div className="min-h-screen bg-[#0A0A0F]">
       <div className="border-b border-white/5 px-6 py-4">
@@ -35,62 +33,48 @@ export default function Blog() {
           </p>
         </div>
 
-        {isLoading ? (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {Array.from({ length: 6 }).map((_, i) => (
-              <div key={i} className="glass glass-border rounded-xl overflow-hidden animate-pulse">
-                <div className="h-48 bg-[#1E1E2D]" />
-                <div className="p-5 space-y-3">
-                  <div className="w-3/4 h-5 bg-[#1E1E2D] rounded" />
-                  <div className="w-full h-3 bg-[#1E1E2D] rounded" />
-                  <div className="w-2/3 h-3 bg-[#1E1E2D] rounded" />
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {mockBlogPosts.map((post) => (
+            <Link key={post.id} to={`/blog/${post.slug}`}>
+              <article className="glass glass-border rounded-xl overflow-hidden hover:border-[#E11D48]/20 transition-all group h-full flex flex-col">
+                <div className="h-48 overflow-hidden">
+                  <img
+                    src={post.coverImage}
+                    alt={post.title}
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
                 </div>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {data?.items.map((post, i) => (
-              <Link key={post.id} to={`/blog/${post.slug}`}>
-                <article className="glass glass-border rounded-xl overflow-hidden hover:border-[#E11D48]/20 transition-all group h-full flex flex-col">
-                  <div className="h-48 overflow-hidden">
-                    <img
-                      src={`/assets/blog-cover-${(i % 3) + 1}.jpg`}
-                      alt={post.title}
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                    />
-                  </div>
-                  <div className="p-5 flex-1 flex flex-col">
-                    <h3 className="text-lg font-semibold text-[#F5E6D3] mb-2 group-hover:text-[#E11D48] transition-colors line-clamp-2">
-                      {post.title}
-                    </h3>
-                    <p className="text-sm text-[#9CA3AF] line-clamp-2 mb-4 flex-1">
-                      {post.metaDescription}
-                    </p>
-                    <div className="flex items-center gap-3 text-xs text-[#9CA3AF]">
-                      <span className="flex items-center gap-1">
-                        <Clock className="w-3 h-3" />
-                        {new Date(post.createdAt).toLocaleDateString()}
+                <div className="p-5 flex-1 flex flex-col">
+                  <h3 className="text-lg font-semibold text-[#F5E6D3] mb-2 group-hover:text-[#E11D48] transition-colors line-clamp-2">
+                    {post.title}
+                  </h3>
+                  <p className="text-sm text-[#9CA3AF] line-clamp-2 mb-4 flex-1">
+                    {post.metaDescription}
+                  </p>
+                  <div className="flex items-center gap-3 text-xs text-[#9CA3AF]">
+                    <span className="flex items-center gap-1">
+                      <Clock className="w-3 h-3" />
+                      {post.readTime}
+                    </span>
+                    {post.seoScore && (
+                      <span className="flex items-center gap-1 text-[#10B981]">
+                        <Tag className="w-3 h-3" />
+                        SEO {post.seoScore}
                       </span>
-                      {post.seoScore && (
-                        <span className="flex items-center gap-1 text-[#10B981]">
-                          <Tag className="w-3 h-3" />
-                          SEO {post.seoScore}
-                        </span>
-                      )}
-                    </div>
+                    )}
                   </div>
-                </article>
-              </Link>
-            ))}
-          </div>
-        )}
-
-        {data?.items.length === 0 && (
-          <div className="text-center py-20">
-            <p className="text-[#9CA3AF]">No blog posts yet</p>
-          </div>
-        )}
+                  <div className="flex flex-wrap gap-1 mt-3">
+                    {post.hashtags.slice(0, 3).map(tag => (
+                      <span key={tag} className="px-2 py-0.5 rounded-full bg-[#E11D48]/10 text-[#E11D48] text-[10px]">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </article>
+            </Link>
+          ))}
+        </div>
       </div>
     </div>
   );

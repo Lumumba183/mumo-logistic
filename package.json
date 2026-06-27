@@ -10,7 +10,6 @@
     "dev": "vite",
     "build": "vite build",
     "netlify-build": "vite build",
-    "netlify-build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
     "start": "NODE_ENV=production node dist/boot.js",

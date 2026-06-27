@@ -1,6 +1,7 @@
 import { Link } from "react-router";
 import { useAuth } from "@/hooks/useAuth";
 import { trpc } from "@/providers/trpc";
+import { mockStats, mockTransactions } from "@/data/mockData";
 import {
   LayoutDashboard,
   UserCircle,
@@ -115,10 +116,12 @@ function StatCard({
 
 // ─── Companion Dashboard ─────────────────────────────────────────────
 function CompanionDashboard() {
-  const { data: stats } = trpc.user.getStats.useQuery();
-  const { data: transactions } = trpc.payment.getTransactions.useQuery({ limit: 5 });
+  const { data: rawStats } = trpc.user.getStats.useQuery(undefined, { retry: false });
+  const { data: rawTransactions } = trpc.payment.getTransactions.useQuery({ limit: 5 }, { retry: false });
+  
+  const stats = rawStats ?? mockStats.companion;
+  const transactions = rawTransactions?.length ? rawTransactions : mockTransactions;
 
-  // Mock chart data
   const chartData = [
     { day: "Mon", earnings: 120 },
     { day: "Tue", earnings: 185 },
@@ -216,10 +219,10 @@ function CompanionDashboard() {
           </Link>
         </div>
         <div className="space-y-3">
-          {transactions?.length === 0 && (
+          {transactions.length === 0 && (
             <p className="text-sm text-[#9CA3AF] text-center py-6">No transactions yet</p>
           )}
-          {transactions?.map((t) => (
+          {transactions.map((t) => (
             <div key={t.id} className="flex items-center justify-between py-3 border-b border-white/5 last:border-0">
               <div className="flex items-center gap-3">
                 <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs ${
@@ -239,18 +242,6 @@ function CompanionDashboard() {
                   {t.toUser ? "+" : "-"}${Number(t.grossAmount).toFixed(2)}
                 </span>
               </p>
-            </div>
-          ))}
-          {!transactions && [1, 2, 3].map((i) => (
-            <div key={i} className="flex items-center justify-between py-3 border-b border-white/5 last:border-0 animate-pulse">
-              <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-full bg-[#1E1E2D]" />
-                <div>
-                  <div className="w-24 h-4 bg-[#1E1E2D] rounded" />
-                  <div className="w-16 h-3 bg-[#1E1E2D] rounded mt-1" />
-                </div>
-              </div>
-              <div className="w-16 h-4 bg-[#1E1E2D] rounded" />
             </div>
           ))}
         </div>
@@ -286,7 +277,8 @@ function CompanionDashboard() {
 
 // ─── Client Dashboard ────────────────────────────────────────────────
 function ClientDashboard() {
-  const { data: stats } = trpc.user.getStats.useQuery();
+  const { data: rawStats } = trpc.user.getStats.useQuery(undefined, { retry: false });
+  const stats = rawStats ?? mockStats.client;
 
   return (
     <div className="space-y-6">

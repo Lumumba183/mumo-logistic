@@ -1,7 +1,10 @@
-import { Link } from "react-router";
-import { LogIn } from "lucide-react";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router";
+import { LogIn, User, Briefcase, Crown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { setMockUser } from "@/hooks/useAuth";
+import type { UserRole } from "@/hooks/useAuth";
 
 function getOAuthUrl() {
   const authUrl = new URL(
@@ -16,6 +19,17 @@ function getOAuthUrl() {
 }
 
 export default function Login() {
+  const navigate = useNavigate();
+  const [demoLoading, setDemoLoading] = useState<UserRole | null>(null);
+
+  const handleDemoLogin = (role: UserRole) => {
+    setDemoLoading(role);
+    setMockUser(role);
+    setTimeout(() => {
+      navigate("/dashboard");
+    }, 300);
+  };
+
   return (
     <div className="min-h-screen bg-[#0A0A0F] flex items-center justify-center px-6 relative overflow-hidden">
       {/* Background glow */}
@@ -53,7 +67,45 @@ export default function Login() {
             <div className="flex-1 h-px bg-white/10" />
           </div>
 
-          {/* Email/Password (UI only - not functional) */}
+          {/* Demo Login Buttons */}
+          <div className="space-y-3 mb-6">
+            <p className="text-xs text-[#9CA3AF] text-center uppercase tracking-wider">Demo Login — No Account Needed</p>
+            <Button
+              variant="outline"
+              className="w-full border-white/10 text-[#F5E6D3] hover:bg-white/5 rounded-full py-5"
+              onClick={() => handleDemoLogin("client")}
+              disabled={!!demoLoading}
+            >
+              <User className="w-4 h-4 mr-2" />
+              {demoLoading === "client" ? "Signing in..." : "Login as Client Demo"}
+            </Button>
+            <Button
+              variant="outline"
+              className="w-full border-[#E11D48]/30 text-[#F5E6D3] hover:bg-[#E11D48]/10 rounded-full py-5"
+              onClick={() => handleDemoLogin("companion")}
+              disabled={!!demoLoading}
+            >
+              <Briefcase className="w-4 h-4 mr-2" />
+              {demoLoading === "companion" ? "Signing in..." : "Login as Companion Demo"}
+            </Button>
+            <Button
+              variant="outline"
+              className="w-full border-amber-500/30 text-[#F5E6D3] hover:bg-amber-500/10 rounded-full py-5"
+              onClick={() => handleDemoLogin("admin")}
+              disabled={!!demoLoading}
+            >
+              <Crown className="w-4 h-4 mr-2" />
+              {demoLoading === "admin" ? "Signing in..." : "Login as Admin Demo"}
+            </Button>
+          </div>
+
+          <div className="flex items-center gap-4 mb-6">
+            <div className="flex-1 h-px bg-white/10" />
+            <span className="text-xs text-[#9CA3AF] uppercase tracking-wider">or</span>
+            <div className="flex-1 h-px bg-white/10" />
+          </div>
+
+          {/* Email/Password (UI only) */}
           <div className="space-y-4">
             <div>
               <label className="block text-sm text-[#9CA3AF] mb-2">Email</label>
