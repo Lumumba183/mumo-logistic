@@ -2,34 +2,29 @@ import { eq } from "drizzle-orm";
 import * as schema from "@db/schema";
 import type { InsertUser } from "@db/schema";
 import { getDb } from "./connection";
-import { env } from "../lib/env";
 
-export async function findUserByUnionId(unionId: string) {
+export async function findUserByClerkId(clerkId: string) {
   const rows = await getDb()
     .select()
     .from(schema.users)
-    .where(eq(schema.users.oauthId, unionId))
+    .where(eq(schema.users.clerkId, clerkId))
     .limit(1);
   return rows.at(0);
 }
 
 export async function upsertUser(data: InsertUser) {
   const values = { ...data };
-  const updateSet: Partial<InsertUser> = {
-    ...data,
-  };
-
-  if (
-    values.role === undefined &&
-    values.oauthId &&
-    values.oauthId === env.ownerUnionId
-  ) {
-    values.role = "admin";
-    updateSet.role = "admin";
-  }
 
   await getDb()
     .insert(schema.users)
     .values(values)
-    .onDuplicateKeyUpdate({ set: updateSet });
+    .onConflictDoUpdate({
+      target: schema.users.clerkId,
+      set: {
+        name: values.name,
+        email: values.email,
+        avatar: values.avatar,
+        role: values.role,
+      },
+    });
 }

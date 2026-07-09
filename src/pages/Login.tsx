@@ -1,23 +1,11 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router";
-import { LogIn, User, Briefcase, Crown } from "lucide-react";
+import { Link } from "react-router";
+import { SignIn } from "@clerk/clerk-react";
+import { User, Briefcase, Crown } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { setMockUser } from "@/hooks/useAuth";
 import type { UserRole } from "@/hooks/useAuth";
-
-function getOAuthUrl() {
-  const authBase = import.meta.env.VITE_KIMI_AUTH_URL;
-  const clientId = import.meta.env.VITE_APP_ID;
-  if (!authBase || !clientId) return "#";
-  const authUrl = new URL(`${authBase}/api/oauth/authorize`);
-  authUrl.searchParams.set("client_id", clientId);
-  authUrl.searchParams.set("redirect_uri", `${window.location.origin}/api/oauth/callback`);
-  authUrl.searchParams.set("response_type", "code");
-  authUrl.searchParams.set("scope", "profile");
-  authUrl.searchParams.set("state", btoa(window.location.pathname));
-  return authUrl.toString();
-}
+import { useState } from "react";
+import { useNavigate } from "react-router";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -54,13 +42,43 @@ export default function Login() {
         </div>
 
         <div className="glass glass-border rounded-xl p-8">
-          {/* OAuth Login */}
-          <a href={getOAuthUrl()}>
-            <Button className="w-full gradient-crimson text-white border-0 hover:opacity-90 rounded-full py-6 text-base font-semibold mb-6">
-              <LogIn className="w-5 h-5 mr-2" />
-              Continue with OAuth
-            </Button>
-          </a>
+          {/* Clerk Sign In */}
+          <div className="mb-6">
+            <SignIn
+              signUpUrl="/register"
+              fallbackRedirectUrl="/dashboard"
+              appearance={{
+                elements: {
+                  rootBox: "mx-auto w-full",
+                  card: "bg-transparent shadow-none border-0",
+                  headerTitle: "hidden",
+                  headerSubtitle: "hidden",
+                  socialButtonsBlockButton: "w-full bg-[#1E1E2D] border border-white/10 text-[#F5E6D3] hover:bg-[#2a2a3d] rounded-full py-5",
+                  formButtonPrimary: "w-full gradient-crimson text-white border-0 hover:opacity-90 rounded-full py-6 text-base font-semibold",
+                  formFieldInput: "bg-[#1E1E2D] border-white/10 text-[#F5E6D3] placeholder:text-[#9CA3AF]/50 focus:border-[#E11D48]/50 focus:ring-[#E11D48]/20 h-12 rounded-lg",
+                  formFieldLabel: "text-[#9CA3AF] text-sm",
+                  footerActionLink: "text-[#E11D48] hover:text-[#FB7185]",
+                  identityPreviewText: "text-[#F5E6D3]",
+                  identityPreviewEditButton: "text-[#E11D48]",
+                  formResendCodeLink: "text-[#E11D48]",
+                  otpCodeFieldInput: "bg-[#1E1E2D] border-white/10 text-[#F5E6D3]",
+                  dividerLine: "bg-white/10",
+                  dividerText: "text-[#9CA3AF]",
+                  alternativeMethodsBlockButton: "text-[#F5E6D3] border-white/10",
+                  formFieldErrorText: "text-[#E11D48]",
+                  alertText: "text-[#F5E6D3]",
+                },
+                variables: {
+                  colorBackground: "transparent",
+                  colorText: "#F5E6D3",
+                  colorPrimary: "#E11D48",
+                  colorInputBackground: "#1E1E2D",
+                  colorInputText: "#F5E6D3",
+                  colorTextSecondary: "#9CA3AF",
+                },
+              }}
+            />
+          </div>
 
           <div className="flex items-center gap-4 mb-6">
             <div className="flex-1 h-px bg-white/10" />
@@ -69,7 +87,7 @@ export default function Login() {
           </div>
 
           {/* Demo Login Buttons */}
-          <div className="space-y-3 mb-6">
+          <div className="space-y-3">
             <p className="text-xs text-[#9CA3AF] text-center uppercase tracking-wider">Demo Login — No Account Needed</p>
             <Button
               variant="outline"
@@ -97,35 +115,6 @@ export default function Login() {
             >
               <Crown className="w-4 h-4 mr-2" />
               {demoLoading === "admin" ? "Signing in..." : "Login as Admin Demo"}
-            </Button>
-          </div>
-
-          <div className="flex items-center gap-4 mb-6">
-            <div className="flex-1 h-px bg-white/10" />
-            <span className="text-xs text-[#9CA3AF] uppercase tracking-wider">or</span>
-            <div className="flex-1 h-px bg-white/10" />
-          </div>
-
-          {/* Email/Password (UI only) */}
-          <div className="space-y-4">
-            <div>
-              <label className="block text-sm text-[#9CA3AF] mb-2">Email</label>
-              <Input
-                type="email"
-                placeholder="you@example.com"
-                className="bg-[#1E1E2D] border-white/10 text-[#F5E6D3] placeholder:text-[#9CA3AF]/50 focus:border-[#E11D48]/50 focus:ring-[#E11D48]/20 h-12"
-              />
-            </div>
-            <div>
-              <label className="block text-sm text-[#9CA3AF] mb-2">Password</label>
-              <Input
-                type="password"
-                placeholder="Enter your password"
-                className="bg-[#1E1E2D] border-white/10 text-[#F5E6D3] placeholder:text-[#9CA3AF]/50 focus:border-[#E11D48]/50 focus:ring-[#E11D48]/20 h-12"
-              />
-            </div>
-            <Button className="w-full bg-[#1E1E2D] hover:bg-[#2a2a3d] text-[#F5E6D3] border border-white/10 rounded-full py-6">
-              Sign In
             </Button>
           </div>
         </div>
