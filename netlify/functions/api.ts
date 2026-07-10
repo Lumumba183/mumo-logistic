@@ -2,8 +2,14 @@ import type { Handler } from "@netlify/functions";
 import app from "../../api/app";
 
 export const handler: Handler = async (event, context) => {
-  // Convert Netlify event to Web API Request
+  // Reconstruct URL ensuring /api prefix for Hono routing
   const url = new URL(event.rawUrl);
+  // Netlify rewrites /api/* to /.netlify/functions/api/*
+  // event.rawUrl may have the function path, so ensure /api prefix
+  if (!url.pathname.startsWith("/api")) {
+    url.pathname = "/api" + url.pathname;
+  }
+
   const request = new Request(url.toString(), {
     method: event.httpMethod,
     headers: new Headers(event.multiValueHeaders as Record<string, string[]>),
