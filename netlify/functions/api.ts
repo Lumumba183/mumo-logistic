@@ -1,5 +1,5 @@
 import type { Handler } from "@netlify/functions";
-import { app } from "../../api/boot";
+import app from "../../api/app";
 
 export const handler: Handler = async (event, context) => {
   // Convert Netlify event to Web API Request
