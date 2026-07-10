@@ -1,2 +1,5 @@
 [build]
   publish = "dist"
+
+# No build command — we pre-build and commit dist/
+# This avoids Netlify's npm install crash
