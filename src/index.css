@@ -1,190 +1,197 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    /* EliteHub Dark Theme - Velvet Noir */
-    --background: 240 24% 4%;
-    --foreground: 30 33% 90%;
-    --card: 240 20% 8%;
-    --card-foreground: 30 33% 90%;
-    --popover: 240 20% 8%;
-    --popover-foreground: 30 33% 90%;
-    --primary: 346 78% 49%;
+    --background: 0 0% 100%;
+    --foreground: 220 20% 10%;
+    --card: 0 0% 100%;
+    --card-foreground: 220 20% 10%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 20% 10%;
+    --primary: 220 70% 30%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 240 18% 12%;
-    --secondary-foreground: 30 33% 90%;
-    --muted: 240 12% 18%;
+    --secondary: 220 14% 96%;
+    --secondary-foreground: 220 20% 10%;
+    --muted: 220 14% 96%;
     --muted-foreground: 220 9% 46%;
-    --accent: 30 35% 65%;
-    --accent-foreground: 240 24% 4%;
+    --accent: 224 100% 62%;
+    --accent-foreground: 0 0% 100%;
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 98%;
-    --success: 160 84% 39%;
-    --warning: 38 92% 50%;
-    --border: 240 8% 15%;
-    --input: 240 18% 12%;
-    --ring: 346 78% 49%;
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 224 100% 62%;
     --radius: 0.75rem;
-    --sidebar-background: 240 20% 6%;
-    --sidebar-foreground: 30 33% 90%;
-    --sidebar-primary: 346 78% 49%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 18% 12%;
-    --sidebar-accent-foreground: 30 33% 90%;
-    --sidebar-border: 240 8% 15%;
-    --sidebar-ring: 346 78% 49%;
+
+    /* MumoFreight Custom Colors */
+    --mumo-navy: #1B2A4A;
+    --mumo-light: #F7F9FC;
+    --mumo-accent: #3B6CFF;
+    --mumo-text: #111827;
+    --mumo-text-secondary: #6B7280;
   }
 
   * {
     @apply border-border;
   }
 
+  html {
+    scroll-behavior: smooth;
+  }
+
   body {
-    @apply bg-background text-foreground antialiased;
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-family: 'Inter', sans-serif;
+    background-color: var(--mumo-light);
+    color: var(--mumo-text);
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Playfair Display', Georgia, serif;
-  }
-
-  code, .mono {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'Space Grotesk', sans-serif;
   }
 }
 
 @layer components {
-  .gradient-crimson {
-    background: linear-gradient(135deg, #E11D48 0%, #FB7185 50%, #D4A574 100%);
+  .mumo-btn-primary {
+    @apply inline-flex items-center justify-center px-6 py-3 rounded-xl font-medium transition-all duration-300;
+    background-color: var(--mumo-accent);
+    color: white;
   }
 
-  .gradient-gold {
-    background: linear-gradient(90deg, #D4A574 0%, #F5E6D3 50%, #D4A574 100%);
+  .mumo-btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 32px rgba(59, 108, 255, 0.35);
   }
 
-  .gradient-dark {
-    background: linear-gradient(180deg, #0A0A0F 0%, #14141E 100%);
+  .mumo-btn-secondary {
+    @apply inline-flex items-center justify-center px-6 py-3 rounded-xl font-medium transition-all duration-300 border-2;
+    border-color: var(--mumo-accent);
+    color: var(--mumo-accent);
+    background: transparent;
   }
 
-  .hero-glow {
-    background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(225,29,72,0.15) 0%, transparent 70%);
+  .mumo-btn-secondary:hover {
+    background-color: var(--mumo-accent);
+    color: white;
   }
 
-  .glass {
-    background: rgba(20, 20, 30, 0.6);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+  .section-light {
+    background-color: var(--mumo-light);
   }
 
-  .glass-border {
-    border: 1px solid rgba(255, 255, 255, 0.06);
+  .section-dark {
+    background-color: var(--mumo-navy);
   }
 
-  .glass-border-glow {
-    border: 1px solid rgba(225, 29, 72, 0.2);
-  }
-
-  .glow-crimson {
-    box-shadow: 0 0 20px rgba(225, 29, 72, 0.3);
-  }
-
-  .glow-gold {
-    box-shadow: 0 0 15px rgba(212, 165, 116, 0.25);
+  .text-gradient {
+    background: linear-gradient(135deg, var(--mumo-accent) 0%, #6B9AFF 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 
   .card-shadow {
-    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 18px 50px rgba(0, 0, 0, 0.10);
   }
 
-  .text-gradient-crimson {
-    background: linear-gradient(135deg, #E11D48 0%, #FB7185 50%, #D4A574 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
-  .text-gradient-gold {
-    background: linear-gradient(90deg, #D4A574 0%, #F5E6D3 50%, #D4A574 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
-  .earnings-pulse::before {
-    content: '';
-    position: absolute;
-    top: -4px;
-    left: -4px;
-    right: -4px;
-    bottom: -4px;
-    border-radius: inherit;
-    background: linear-gradient(135deg, #E11D48, #D4A574);
-    opacity: 0;
-    z-index: -1;
-    animation: earningsPulse 3s ease-in-out infinite;
-  }
-
-  .input-shake {
-    animation: inputShake 0.5s ease-in-out;
-  }
-
-  .violation-banner {
-    max-height: 0;
-    opacity: 0;
-    overflow: hidden;
-    transition: max-height 0.3s ease, opacity 0.3s ease;
-  }
-
-  .violation-banner.visible {
-    max-height: 60px;
-    opacity: 1;
+  .blueprint-bg {
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%233B6CFF' fill-opacity='0.06'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
   }
 }
 
-@keyframes earningsPulse {
-  0%, 100% { opacity: 0; }
-  50% { opacity: 0.4; }
+@layer utilities {
+  .font-display {
+    font-family: 'Space Grotesk', sans-serif;
+  }
+
+  .font-body {
+    font-family: 'Inter', sans-serif;
+  }
+
+  .font-handwritten {
+    font-family: 'Caveat', cursive;
+  }
+
+  .text-navy {
+    color: var(--mumo-navy);
+  }
+
+  .text-accent {
+    color: var(--mumo-accent);
+  }
+
+  .bg-navy {
+    background-color: var(--mumo-navy);
+  }
+
+  .bg-light {
+    background-color: var(--mumo-light);
+  }
+
+  .bg-accent {
+    background-color: var(--mumo-accent);
+  }
+
+  .border-accent {
+    border-color: var(--mumo-accent);
+  }
 }
 
-@keyframes inputShake {
-  0% { transform: translateX(0); }
-  20% { transform: translateX(-10px); }
-  40% { transform: translateX(10px); }
-  60% { transform: translateX(-6px); }
-  80% { transform: translateX(6px); }
-  100% { transform: translateX(0); }
-}
-
+/* Animation Utilities */
 @keyframes float {
   0%, 100% { transform: translateY(0px); }
   50% { transform: translateY(-10px); }
 }
 
-/* Scrollbar styling */
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(59, 108, 255, 0.3); }
+  50% { box-shadow: 0 0 40px rgba(59, 108, 255, 0.6); }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 3s ease-in-out infinite;
+}
+
+/* Scrollbar Styling */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #0A0A0F;
+  background: var(--mumo-light);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #1E1E2D;
-  border-radius: 3px;
+  background: var(--mumo-navy);
+  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #E11D48;
+  background: var(--mumo-accent);
 }
 
-/* Selection styling */
-::selection {
-  background: rgba(225, 29, 72, 0.3);
-  color: #F5E6D3;
+/* Form Styling */
+input, textarea, select {
+  @apply w-full px-4 py-3 rounded-lg border transition-all duration-200;
+  border-color: rgba(27, 42, 74, 0.15);
+  background: white;
+}
+
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  border-color: var(--mumo-accent);
+  box-shadow: 0 0 0 3px rgba(59, 108, 255, 0.15);
+}
+
+/* Mobile menu */
+.mobile-menu-open {
+  overflow: hidden;
 }
