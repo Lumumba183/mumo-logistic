@@ -8,8 +8,6 @@ pnpm-debug.log*
 lerna-debug.log*
 
 node_modules
-dist
-dist-ssr
 *.local
 
 # Editor directories and files
@@ -34,7 +32,7 @@ db/migrations/*.sql
 # TypeScript cache
 *.tsbuildinfo
 # Build outputs
-dist/
+# dist/  # UNCOMMENTED — we pre-build for Netlify
 build/
 # Test coverage
 coverage/
