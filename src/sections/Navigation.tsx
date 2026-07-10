@@ -52,7 +52,7 @@ export default function Navigation() {
           <div className="flex justify-between items-center h-16 lg:h-20">
             {/* Logo */}
             <a href="#" className="flex items-center gap-3 group" onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>
-              <img src="/images/mumofreight-logo.jpg" alt="MumoFreight Logo" className="h-10 w-10 sm:h-12 sm:w-12 rounded-lg object-cover shadow-md group-hover:shadow-lg transition-shadow" />
+              <img src="/images/mumofreight-logo.jpg" alt="MumoFreight Logo" className="h-14 w-14 sm:h-16 sm:w-16 rounded-lg object-cover shadow-md group-hover:shadow-lg transition-shadow" />
               <div className="hidden sm:block">
                 <span className={`font-display font-bold text-lg lg:text-xl transition-colors ${isScrolled ? 'text-navy' : 'text-white'}`}>MumoFreight</span>
                 <span className={`block text-[10px] lg:text-xs font-medium tracking-wider uppercase transition-colors ${isScrolled ? 'text-gray-500' : 'text-white/70'}`}>Logistics Consultants</span>

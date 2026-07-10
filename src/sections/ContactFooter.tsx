@@ -88,7 +88,7 @@ export default function ContactFooter() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
             <div className="flex items-center gap-3">
-              <img src="/images/mumofreight-logo.jpg" alt="MumoFreight Logo" className="h-10 w-10 rounded-lg object-cover" />
+              <img src="/images/mumofreight-logo.jpg" alt="MumoFreight Logo" className="h-14 w-14 rounded-lg object-cover" />
               <div>
                 <p className="font-display font-semibold text-white">MumoFreight</p>
                 <p className="text-xs text-white/50">Logistics Consultants Limited</p>
