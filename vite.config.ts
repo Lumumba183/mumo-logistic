@@ -1,8 +1,11 @@
 import devServer from "@hono/vite-dev-server"
+import { dirname } from "path";
+import { fileURLToPath } from "url";
 import path from "path"
-const __dirname = import.meta.dirname
 import react from "@vitejs/plugin-react"
 import { defineConfig } from "vite"
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 // https://vite.dev/config/
 export default defineConfig({
