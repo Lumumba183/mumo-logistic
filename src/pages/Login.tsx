@@ -1,19 +1,16 @@
 import { Link } from "react-router";
-import { SignIn } from "@clerk/clerk-react";
 import { User, Briefcase, Crown } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { setMockUser } from "@/hooks/useAuth";
-import type { UserRole } from "@/hooks/useAuth";
 import { useState } from "react";
 import { useNavigate } from "react-router";
 
 export default function Login() {
   const navigate = useNavigate();
-  const [demoLoading, setDemoLoading] = useState<UserRole | null>(null);
+  const [demoLoading, setDemoLoading] = useState<string | null>(null);
 
-  const handleDemoLogin = (role: UserRole) => {
+  const handleDemoLogin = (role: string) => {
     setDemoLoading(role);
-    setMockUser(role);
+    // Public site — just navigate to dashboard
     setTimeout(() => {
       navigate("/dashboard");
     }, 300);
@@ -37,58 +34,13 @@ export default function Login() {
             Welcome Back
           </h1>
           <p className="text-sm text-[#9CA3AF]">
-            Sign in to access your account
+            This is a public demo site — no login required
           </p>
         </div>
 
         <div className="glass glass-border rounded-xl p-8">
-          {/* Clerk Sign In */}
-          <div className="mb-6">
-            <SignIn
-              signUpUrl="/register"
-              fallbackRedirectUrl="/dashboard"
-              appearance={{
-                elements: {
-                  rootBox: "mx-auto w-full",
-                  card: "bg-transparent shadow-none border-0",
-                  headerTitle: "hidden",
-                  headerSubtitle: "hidden",
-                  socialButtonsBlockButton: "w-full bg-[#1E1E2D] border border-white/10 text-[#F5E6D3] hover:bg-[#2a2a3d] rounded-full py-5",
-                  formButtonPrimary: "w-full gradient-crimson text-white border-0 hover:opacity-90 rounded-full py-6 text-base font-semibold",
-                  formFieldInput: "bg-[#1E1E2D] border-white/10 text-[#F5E6D3] placeholder:text-[#9CA3AF]/50 focus:border-[#E11D48]/50 focus:ring-[#E11D48]/20 h-12 rounded-lg",
-                  formFieldLabel: "text-[#9CA3AF] text-sm",
-                  footerActionLink: "text-[#E11D48] hover:text-[#FB7185]",
-                  identityPreviewText: "text-[#F5E6D3]",
-                  identityPreviewEditButton: "text-[#E11D48]",
-                  formResendCodeLink: "text-[#E11D48]",
-                  otpCodeFieldInput: "bg-[#1E1E2D] border-white/10 text-[#F5E6D3]",
-                  dividerLine: "bg-white/10",
-                  dividerText: "text-[#9CA3AF]",
-                  alternativeMethodsBlockButton: "text-[#F5E6D3] border-white/10",
-                  formFieldErrorText: "text-[#E11D48]",
-                  alertText: "text-[#F5E6D3]",
-                },
-                variables: {
-                  colorBackground: "transparent",
-                  colorText: "#F5E6D3",
-                  colorPrimary: "#E11D48",
-                  colorInputBackground: "#1E1E2D",
-                  colorInputText: "#F5E6D3",
-                  colorTextSecondary: "#9CA3AF",
-                },
-              }}
-            />
-          </div>
-
-          <div className="flex items-center gap-4 mb-6">
-            <div className="flex-1 h-px bg-white/10" />
-            <span className="text-xs text-[#9CA3AF] uppercase tracking-wider">or</span>
-            <div className="flex-1 h-px bg-white/10" />
-          </div>
-
-          {/* Demo Login Buttons */}
           <div className="space-y-3">
-            <p className="text-xs text-[#9CA3AF] text-center uppercase tracking-wider">Demo Login — No Account Needed</p>
+            <p className="text-xs text-[#9CA3AF] text-center uppercase tracking-wider">Choose a demo role to explore</p>
             <Button
               variant="outline"
               className="w-full border-white/10 text-[#F5E6D3] hover:bg-white/5 rounded-full py-5"
@@ -96,7 +48,7 @@ export default function Login() {
               disabled={!!demoLoading}
             >
               <User className="w-4 h-4 mr-2" />
-              {demoLoading === "client" ? "Signing in..." : "Login as Client Demo"}
+              {demoLoading === "client" ? "Loading..." : "Enter as Client"}
             </Button>
             <Button
               variant="outline"
@@ -105,7 +57,7 @@ export default function Login() {
               disabled={!!demoLoading}
             >
               <Briefcase className="w-4 h-4 mr-2" />
-              {demoLoading === "companion" ? "Signing in..." : "Login as Companion Demo"}
+              {demoLoading === "companion" ? "Loading..." : "Enter as Companion"}
             </Button>
             <Button
               variant="outline"
@@ -114,15 +66,14 @@ export default function Login() {
               disabled={!!demoLoading}
             >
               <Crown className="w-4 h-4 mr-2" />
-              {demoLoading === "admin" ? "Signing in..." : "Login as Admin Demo"}
+              {demoLoading === "admin" ? "Loading..." : "Enter as Admin"}
             </Button>
           </div>
         </div>
 
         <p className="text-center text-sm text-[#9CA3AF] mt-6">
-          Don&apos;t have an account?{" "}
-          <Link to="/register" className="text-[#E11D48] hover:text-[#FB7185] transition-colors font-medium">
-            Join Free
+          <Link to="/" className="text-[#E11D48] hover:text-[#FB7185] transition-colors font-medium">
+            ← Back to Home
           </Link>
         </p>
       </div>

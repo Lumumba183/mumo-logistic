@@ -1,9 +1,8 @@
-import { createRouter, authedQuery, publicQuery } from "./middleware";
+import { createRouter, publicQuery } from "./middleware";
 
 export const authRouter = createRouter({
-  me: authedQuery.query((opts) => opts.ctx.user),
+  me: publicQuery.query(() => null),
   logout: publicQuery.mutation(async () => {
-    // Clerk handles logout on the client side
     return { success: true };
   }),
 });

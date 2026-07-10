@@ -8,7 +8,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { trpc } from "@/providers/trpc";
 
 export default function Profile() {
-  const { user } = useAuth({ redirectOnUnauthenticated: true });
+  const { user } = useAuth();
   const [name, setName] = useState(user?.name ?? "");
   const [bio, setBio] = useState("");
   const [location, setLocation] = useState("");

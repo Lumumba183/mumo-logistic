@@ -381,7 +381,8 @@ function ClientDashboard() {
 
 // ─── Main Dashboard ──────────────────────────────────────────────────
 export default function Dashboard() {
-  const { user, isLoading, isAuthenticated, logout } = useAuth({ redirectOnUnauthenticated: true });
+  const { user, isLoading, logout } = useAuth();
+  
   if (isLoading) {
     return (
       <div className="min-h-screen bg-[#0A0A0F] flex items-center justify-center">
@@ -389,8 +390,6 @@ export default function Dashboard() {
       </div>
     );
   }
-
-  if (!isAuthenticated) return null;
 
   return (
     <div className="min-h-screen bg-[#0A0A0F] flex">
